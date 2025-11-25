@@ -1,16 +1,20 @@
 export const ROWS = 6;
 export const COLUMNS = 7;
 
+export const EMPTY = 0;
+export const PLAYER_1 = 1;
+export const PLAYER_2 = 2;
+
 export enum Winner {
 	NONE = -1,
 	TIE = 0,
-	P1 = 1,
-	P2 = 2
+	P1 = PLAYER_1,
+	P2 = PLAYER_2
 }
 
-function checkDirection(board: number[][], r: number, c: number, dr: number, dc: number) {
+function checkDirection(board: number[][], r: number, c: number, dr: number, dc: number): boolean {
 	const player = board[r][c];
-	if (player === 0) return false;
+	if (player === EMPTY) return false;
 
 	for (let i = 1; i < 4; i++) {
 		const nr = r + i * dr;
@@ -38,9 +42,9 @@ export function checkBoardState(board: number[][]): [boolean, number] {
 	const winner = checkWinner(board);
 	if (winner) return [true, winner];
 	if (board.flat().every((cell) => cell !== 0)) {
-		return [true, 0];
+		return [true, Winner.TIE];
 	}
-	return [false, 0];
+	return [false, Winner.NONE];
 }
 
 export function clearBoard(): number[][] {

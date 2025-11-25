@@ -20,6 +20,7 @@ export const gameState = $state<GameState>(createInitialGameState());
 
 export function handleCellClick(c: number) {
 	if (gameState.isGameOver) return;
+	if (gameState.board[0][c]) return; // Ignore if column is already full
 
 	for (let r = ROWS - 1; r >= 0; r--) {
 		if (gameState.board[r][c] === 0) {
