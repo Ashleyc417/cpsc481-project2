@@ -7,9 +7,9 @@
 <main class="max-w-3xl mx-auto flex flex-col items-center gap-4 p-6 pt-24">
 	<h1 class="text-xl md:text-3xl font-bold">Connect 4 Recommender</h1>
 	<div class="my-6 flex flex-col items-center justify-center gap-2 bg-[#2f4b99] p-4 rounded-xl">
-		{#each gameState.board as row}
+		{#each gameState.board as row, r (`row-${r}`)}
 			<div class="flex items-center justify-center gap-4 md:gap-8">
-				{#each row as cell, c}
+				{#each row as cell, c (`cell-${r}-${c}`)}
 					<div
 						role="button"
 						tabindex={0}
