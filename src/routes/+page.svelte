@@ -52,14 +52,13 @@
 		>
 			Play Again!
 		</button>
-	{/if}
-	<button
-		onclick={() => {
-			recommendMove();
-		}}
-		class="cursor-pointer max-w-80 rounded-xl w-full py-2 px-4 bg-[#899dd2]
+	{:else}
+		<button
+			onclick={recommendMove}
+			class="cursor-pointer max-w-80 rounded-xl w-full py-2 px-4 bg-[#899dd2]
       text-white hover:brightness-110 transition-all"
-	>
-		Recommend Next Move
-	</button>
+		>
+			Recommend Next Move
+		</button>
+	{/if}
 </main>
