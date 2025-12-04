@@ -9,6 +9,13 @@ export type GameState = {
 	winner: number;
 };
 
+type FallingDisc = {
+	falling: boolean;
+	column: number;
+	playerTurn: number;
+	finalRow: number;
+};
+
 function createInitialGameState(): GameState {
 	return {
 		board: clearBoard(),
@@ -20,26 +27,45 @@ function createInitialGameState(): GameState {
 }
 
 export const gameState = $state<GameState>(createInitialGameState());
+export const fallingDisc = $state<FallingDisc>({
+	falling: false,
+	column: -1,
+	finalRow: -1,
+	playerTurn: -1
+});
 
 export function handleCellClick(c: number) {
 	if (gameState.isGameOver) return;
 	if (gameState.board[0][c]) return; // Ignore if column is already full
 
 	gameState.recommendedMove = null;
+	let dropRow = -1;
 
 	for (let r = ROWS - 1; r >= 0; r--) {
 		if (gameState.board[r][c] === 0) {
-			gameState.board[r][c] = gameState.playerTurn;
+			dropRow = r;
 			break;
 		}
 	}
-	const [isGameOver, winner] = checkBoardState(gameState.board);
-	if (isGameOver) {
-		gameState.isGameOver = isGameOver;
-		gameState.winner = winner;
-		return;
-	}
-	gameState.playerTurn = 3 - gameState.playerTurn;
+
+	Object.assign(fallingDisc, {
+		falling: true,
+		column: c,
+		finalRow: dropRow,
+		playerTurn: gameState.playerTurn
+	});
+
+	setTimeout(() => {
+		gameState.board[dropRow][c] = gameState.playerTurn;
+		Object.assign(fallingDisc, { falling: false });
+		const [isGameOver, winner] = checkBoardState(gameState.board);
+		if (isGameOver) {
+			gameState.isGameOver = isGameOver;
+			gameState.winner = winner;
+			return;
+		}
+		gameState.playerTurn = 3 - gameState.playerTurn;
+	}, 750);
 }
 
 export function recommendMove() {

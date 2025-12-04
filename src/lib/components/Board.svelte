@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PLAYER_1, EMPTY, ROWS, COLUMNS } from '$lib/connect4/logic';
-	import { gameState, handleCellClick } from '$lib/connect4/state.svelte';
+	import { fallingDisc, gameState, handleCellClick } from '$lib/connect4/state.svelte';
 
 	const CELL_SIZE = 60;
 	const CELL_PADDING = 16;
@@ -15,6 +15,16 @@
 	function cy(row: number): number {
 		return CELL_PADDING + row * CELL_SIZE + CELL_SIZE / 2;
 	}
+
+	let fallingDiscY = $state(0);
+	$effect(() => {
+		if (fallingDisc.falling) {
+			fallingDiscY = -CELL_SIZE;
+			requestAnimationFrame(() => {
+				fallingDiscY = cy(fallingDisc.finalRow);
+			});
+		}
+	});
 </script>
 
 <svg width="90%" viewBox={`0 0 ${W} ${H}`} style="max-width: 500px; cursor: pointer;">
@@ -28,6 +38,16 @@
 			{/each}
 		</mask>
 	</defs>
+
+	{#if fallingDisc.falling}
+		<circle
+			cx={cx(fallingDisc.column)}
+			cy={fallingDiscY}
+			r={CELL_SIZE * 0.42}
+			fill={fallingDisc.playerTurn === PLAYER_1 ? '#facc15' : '#ef4444'}
+			style="transition: cy 300ms cubic-bezier(0.175, 1.1, 0.32, 1.07)"
+		/>
+	{/if}
 
 	<rect x="0" y="0" width={W} height={H} rx="20" ry="20" fill="#4f66a8" mask="url(#board-mask)" />
 
@@ -64,7 +84,7 @@
 			fill="transparent"
 			onclick={() => handleCellClick(col)}
 			class="outline-none"
-			onkeydown={(e) => {}}
+			onkeydown={() => {}}
 			tabindex={0}
 			role="button"
 			aria-label={`Drop in column ${col + 1}`}
