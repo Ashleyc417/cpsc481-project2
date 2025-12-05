@@ -8,7 +8,7 @@ export function getValidMoves(board: number[][]): number[] {
 	return moves;
 }
 
-export function simulateMove(board: number[][], col: number, player: number): number[][] | null {
+export function simulateMove(board: number[][], col: number, player: number): number[][] {
 	const newBoard = board.map((row) => [...row]);
 	for (let r = ROWS - 1; r >= 0; r--) {
 		if (newBoard[r][col] === 0) {
@@ -16,5 +16,5 @@ export function simulateMove(board: number[][], col: number, player: number): nu
 			return newBoard;
 		}
 	}
-	return null;
+	throw new Error('Trying to drop a disc with full column.');
 }

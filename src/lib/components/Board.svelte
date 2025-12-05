@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PLAYER_1, EMPTY, ROWS, COLUMNS } from '$lib/connect4/logic';
-	import { fallingDisc, gameState, handleCellClick } from '$lib/connect4/state.svelte';
+	import { gameState, handleCellClick } from '$lib/connect4/state.svelte';
 
 	const CELL_SIZE = 60;
 	const CELL_PADDING = 16;
@@ -18,10 +18,11 @@
 
 	let fallingDiscY = $state(0);
 	$effect(() => {
-		if (fallingDisc.falling) {
+		const fallingDisc = gameState.fallingDisc;
+		if (fallingDisc) {
 			fallingDiscY = -CELL_SIZE;
 			requestAnimationFrame(() => {
-				fallingDiscY = cy(fallingDisc.finalRow);
+				fallingDiscY = cy(fallingDisc.row);
 			});
 		}
 	});
@@ -39,12 +40,12 @@
 		</mask>
 	</defs>
 
-	{#if fallingDisc.falling}
+	{#if gameState.fallingDisc}
 		<circle
-			cx={cx(fallingDisc.column)}
+			cx={cx(gameState.fallingDisc.column)}
 			cy={fallingDiscY}
 			r={CELL_SIZE * 0.42}
-			fill={fallingDisc.playerTurn === PLAYER_1 ? '#facc15' : '#ef4444'}
+			fill={gameState.player === PLAYER_1 ? '#facc15' : '#ef4444'}
 			style="transition: cy 300ms cubic-bezier(0.175, 1.1, 0.32, 1.07)"
 		/>
 	{/if}
@@ -70,7 +71,8 @@
 			cx={cx(gameState.recommendedMove[1])}
 			cy={cy(gameState.recommendedMove[0])}
 			r={CELL_SIZE * 0.42}
-			fill={gameState.playerTurn === PLAYER_1 ? 'rgba(250,204,21,0.35)' : 'rgba(239,68,68,0.35)'}
+			fill={gameState.player === PLAYER_1 ? '#facc15' : '#ef4444'}
+			opacity="0.35"
 			style="pointer-events: none;"
 		/>
 	{/if}
@@ -81,13 +83,13 @@
 			y={0}
 			width={CELL_SIZE}
 			height={H}
-			fill="transparent"
 			onclick={() => handleCellClick(col)}
+			fill="transparent"
 			class="outline-none"
-			onkeydown={() => {}}
 			tabindex={0}
 			role="button"
 			aria-label={`Drop in column ${col + 1}`}
+			onkeydown={() => {}}
 		/>
 	{/each}
 </svg>

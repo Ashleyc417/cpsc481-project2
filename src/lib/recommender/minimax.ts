@@ -8,21 +8,21 @@ export function minimax(
 	alpha: number,
 	beta: number,
 	maximizingPlayer: boolean,
-	playerTurn: number
+	player: number
 ): [number, number | null] {
 	const [isOver, winner] = checkBoardState(board);
-	const opponent = 3 - playerTurn;
+	const opponent = 3 - player;
 
 	// Terminal state scoring
 	if (isOver) {
-		if (winner === playerTurn) return [Infinity, null];
+		if (winner === player) return [Infinity, null];
 		if (winner === opponent) return [-Infinity, null];
 		return [0, null]; // tie
 	}
 
 	// Depth reached: evaluate
 	if (depth === 0) {
-		return [evaluateBoard(board, playerTurn), null];
+		return [evaluateBoard(board, player), null];
 	}
 
 	const validMoves = getValidMoves(board);
@@ -32,10 +32,8 @@ export function minimax(
 		let bestCol = null;
 
 		for (const col of validMoves) {
-			const child = simulateMove(board, col, playerTurn);
-			if (!child) continue;
-
-			const [score] = minimax(child, depth - 1, alpha, beta, false, playerTurn);
+			const child = simulateMove(board, col, player);
+			const [score] = minimax(child, depth - 1, alpha, beta, false, player);
 
 			if (score > bestScore) {
 				bestScore = score;
@@ -53,9 +51,7 @@ export function minimax(
 
 		for (const col of validMoves) {
 			const child = simulateMove(board, col, opponent);
-			if (!child) continue;
-
-			const [score] = minimax(child, depth - 1, alpha, beta, true, playerTurn);
+			const [score] = minimax(child, depth - 1, alpha, beta, true, player);
 
 			if (score < bestScore) {
 				bestScore = score;

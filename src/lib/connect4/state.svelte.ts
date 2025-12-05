@@ -1,76 +1,58 @@
-import { checkBoardState, clearBoard, ROWS, Winner } from '$lib/connect4/logic';
+import { canDrop, checkBoardState, clearBoard, ROWS, rowToDrop, Winner } from '$lib/connect4/logic';
 import { getBestMove } from '$lib/recommender/getBestMove';
 
-export type GameState = {
-	board: number[][];
-	playerTurn: number;
-	isGameOver: boolean;
-	recommendedMove: [number, number] | null;
-	winner: number;
+type FallingDisc = {
+	column: number;
+	row: number;
 };
 
-type FallingDisc = {
-	falling: boolean;
-	column: number;
-	playerTurn: number;
-	finalRow: number;
+type GameState = {
+	board: number[][];
+	player: number;
+	isGameOver: boolean;
+	winner: number;
+	recommendedMove: [number, number] | null;
+	fallingDisc: FallingDisc | null;
 };
 
 function createInitialGameState(): GameState {
 	return {
 		board: clearBoard(),
-		playerTurn: 1,
+		player: 1,
 		isGameOver: false,
+		winner: Winner.NONE,
 		recommendedMove: null,
-		winner: Winner.NONE
+		fallingDisc: null
 	};
 }
 
 export const gameState = $state<GameState>(createInitialGameState());
-export const fallingDisc = $state<FallingDisc>({
-	falling: false,
-	column: -1,
-	finalRow: -1,
-	playerTurn: -1
-});
 
-export function handleCellClick(c: number) {
-	if (gameState.isGameOver) return;
-	if (gameState.board[0][c]) return; // Ignore if column is already full
+export function handleCellClick(column: number) {
+	if (gameState.isGameOver || gameState.fallingDisc) return;
+	if (canDrop(gameState.board, column)) return;
 
+	const row = rowToDrop(gameState.board, column);
 	gameState.recommendedMove = null;
-	let dropRow = -1;
-
-	for (let r = ROWS - 1; r >= 0; r--) {
-		if (gameState.board[r][c] === 0) {
-			dropRow = r;
-			break;
-		}
-	}
-
-	Object.assign(fallingDisc, {
-		falling: true,
-		column: c,
-		finalRow: dropRow,
-		playerTurn: gameState.playerTurn
-	});
+	gameState.fallingDisc = { row, column };
 
 	setTimeout(() => {
-		gameState.board[dropRow][c] = gameState.playerTurn;
-		Object.assign(fallingDisc, { falling: false });
+		gameState.board[row][column] = gameState.player;
+		gameState.fallingDisc = null;
+
 		const [isGameOver, winner] = checkBoardState(gameState.board);
 		if (isGameOver) {
 			gameState.isGameOver = isGameOver;
 			gameState.winner = winner;
 			return;
 		}
-		gameState.playerTurn = 3 - gameState.playerTurn;
-	}, 750);
+		gameState.player = 3 - gameState.player;
+	}, 300);
 }
 
 export function recommendMove() {
-	if (gameState.isGameOver) return;
-	gameState.recommendedMove = getBestMove(gameState.board, gameState.playerTurn);
+	if (gameState.isGameOver || gameState.fallingDisc) return;
+	gameState.recommendedMove = getBestMove(gameState.board, gameState.player);
 }
 
 export function resetGame() {

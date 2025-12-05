@@ -38,6 +38,19 @@ function checkWinner(board: number[][]): number {
 	return 0;
 }
 
+export function canDrop(board: number[][], c: number): boolean {
+	return board[0][c] !== 0;
+}
+
+export function rowToDrop(board: number[][], c: number): number {
+	for (let r = ROWS - 1; r >= 0; r--) {
+		if (board[r][c] === 0) {
+			return r;
+		}
+	}
+	throw new Error('Trying to drop a disc with full column.');
+}
+
 export function checkBoardState(board: number[][]): [boolean, number] {
 	const winner = checkWinner(board);
 	if (winner) return [true, winner];
