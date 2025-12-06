@@ -20,7 +20,8 @@
 			</span>
 			<button
 				onclick={resetGame}
-				class="cursor-pointer rounded-xl min-w-60 py-2 px-4 bg-[#4f66a8]/80 text-white hover:brightness-110 transition-all"
+				class="cursor-pointer rounded-xl min-w-60 py-2 px-4 bg-[#4f66a8]/80
+        text-white hover:brightness-110 transition-all"
 			>
 				Play Again!
 			</button>
@@ -28,9 +29,11 @@
 			<span class="text-xl font-light">Player {gameState.player}'s turn</span>
 			<button
 				onclick={recommendMove}
-				class="cursor-pointer rounded-xl min-w-60 py-2 px-4 bg-[#4f66a8]/80 text-white hover:brightness-110 transition-all"
+				class="cursor-pointer rounded-xl min-w-60 py-2 px-4 bg-[#4f66a8]/80
+        text-white hover:brightness-110 transition-all flex gap-2 items-center
+        justify-center"
 			>
-				Recommend Move
+				<img src="/sparkles.svg" alt="Sparkles" class="w-4" /> Recommend
 			</button>
 		{/if}
 	</div>
