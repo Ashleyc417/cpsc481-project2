@@ -28,7 +28,7 @@
 	});
 </script>
 
-<svg width="90%" viewBox={`0 0 ${W} ${H}`} style="max-width: 500px; cursor: pointer;">
+<svg viewBox={`0 0 ${W} ${H}`} class="max-w-100 sm:max-w-125 cursor-pointer">
 	<defs>
 		<mask id="board-mask">
 			<rect width={W} height={H} fill="white" />
