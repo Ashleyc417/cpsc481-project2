@@ -38,7 +38,7 @@
 		{/if}
 	</div>
 	<h1 class="text-3xl sm:text-5xl flex flex-col">
-		<span class="font-light">Connect4 Recommender</span>
+		<span class="font-light">Connect4</span>
 		<span class="font-bold">move recommender</span>
 	</h1>
 </main>
