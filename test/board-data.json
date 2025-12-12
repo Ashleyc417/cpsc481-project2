@@ -1,0 +1,69 @@
+{
+	"tests": [
+		{
+			"name": "Empty board (opening)",
+			"player": 1,
+			"board": [
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0]
+			],
+			"description": "Opening move; center column should be preferred"
+		},
+		{
+			"name": "Immediate win for Player 1",
+			"player": 1,
+			"board": [
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 1, 0, 0, 0],
+				[0, 0, 0, 1, 0, 0, 0],
+				[0, 2, 2, 1, 0, 0, 0]
+			],
+			"description": "Player 1 can win vertically in column 3"
+		},
+		{
+			"name": "Block opponent win",
+			"player": 1,
+			"board": [
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 2, 2, 2, 0, 0, 0],
+				[1, 1, 0, 0, 0, 0, 0]
+			],
+			"description": "Player 1 must block Player 2 in column 3"
+		},
+		{
+			"name": "Midgame complex position",
+			"player": 2,
+			"board": [
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 1, 2, 1, 0, 0, 0],
+				[0, 2, 1, 2, 0, 0, 0],
+				[1, 1, 2, 1, 0, 0, 0],
+				[2, 2, 1, 2, 0, 0, 0]
+			],
+			"description": "Evaluate balance and center control"
+		},
+		{
+			"name": "Fork threat scenario",
+			"player": 2,
+			"board": [
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 1, 0, 0, 0, 0],
+				[0, 2, 1, 0, 0, 0, 0],
+				[0, 1, 2, 0, 0, 0, 0],
+				[2, 1, 1, 2, 0, 0, 0]
+			],
+			"description": "Player 2 must avoid fork by Player 1"
+		}
+	]
+}
