@@ -54,7 +54,8 @@ src/
 │   └── utils.ts
 │
 └── routes/
-    └── +page.svelte ```
+    └── +page.svelte 
+```
 
     
 
