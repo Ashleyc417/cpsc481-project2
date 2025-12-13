@@ -37,6 +37,8 @@ The frontend is built using Svelte, and the game logic and AI decision-making ar
    
    
 ### Project Structure
+
+```
 src/
 ├── components/
 │   └── Board.svelte
@@ -52,8 +54,9 @@ src/
 │   └── utils.ts
 │
 └── routes/
-    └── +page.svelte
+    └── +page.svelte ```
 
+    
 
 ## File Folder and Descriptions
 
