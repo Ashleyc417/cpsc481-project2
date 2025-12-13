@@ -32,8 +32,8 @@
 	<defs>
 		<mask id="board-mask">
 			<rect width={W} height={H} fill="white" />
-			{#each gameState.board as row, r}
-				{#each row as _cell, c}
+			{#each gameState.board as row, r (`boardMaskRow-${r}`)}
+				{#each [...Array(row.length).keys()] as c (`boardMaskCell-${r}-${c}`)}
 					<circle cx={cx(c)} cy={cy(r)} r={CELL_SIZE * 0.42} fill="black" />
 				{/each}
 			{/each}
@@ -52,8 +52,8 @@
 
 	<rect x="0" y="0" width={W} height={H} rx="20" ry="20" fill="#4f66a8" mask="url(#board-mask)" />
 
-	{#each gameState.board as row, r}
-		{#each row as cell, c}
+	{#each gameState.board as row, r (`boardRow-${r}`)}
+		{#each row as cell, c (`boardCell-${r}-${c}`)}
 			{#if cell !== EMPTY}
 				<circle
 					cx={cx(c)}
@@ -77,7 +77,7 @@
 		/>
 	{/if}
 
-	{#each Array(COLUMNS) as _, col}
+	{#each [...Array(COLUMNS).keys()] as col (`clickableColumn-${col}`)}
 		<rect
 			x={CELL_PADDING + col * CELL_SIZE}
 			y={0}

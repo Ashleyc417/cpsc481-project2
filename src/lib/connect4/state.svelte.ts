@@ -1,4 +1,4 @@
-import { canDrop, checkBoardState, clearBoard, ROWS, rowToDrop, Winner } from '$lib/connect4/logic';
+import { canDrop, checkBoardState, clearBoard, rowToDrop, Winner } from '$lib/connect4/logic';
 import { getBestMove } from '$lib/recommender/getBestMove';
 
 type FallingDisc = {
