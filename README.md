@@ -38,7 +38,6 @@ The frontend is built using Svelte, and the game logic and AI decision-making ar
    
 ### Project Structure
 src/
-│
 ├── components/
 │   └── Board.svelte
 │
@@ -54,6 +53,7 @@ src/
 │
 └── routes/
     └── +page.svelte
+
 
 ## File Folder and Descriptions
 
@@ -82,8 +82,10 @@ src/
 - The main application page that connects the UI with the game and AI logic.
 
 ## Dependencies
-Svelte / SvelteKit
-TypeScript
-Node.js and npm
+- Svelte / SvelteKit
+- TypeScript
+- Node.js and npm
+
+
 
 All dependencies are listed in the package.json file and can be installed using npm install.
